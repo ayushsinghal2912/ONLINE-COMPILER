@@ -12,8 +12,16 @@ app.get("/",(req,res)=>{
 });
 
 app.post("/run",(req,res)=>{
-    console.log(req.body);
-    return res.json(req.body); 
+    // console.log(req.body);
+    const{language = "cpp", code} = req.body ;
+    // checking the condition if code is empty then send back failure report with the message
+    if(code===undefined)
+    {
+        return res.status(400).json({Success : false, error : "Empty code body!"});
+    }
+    // need to generate a c++ file from the request 
+    // we need to run the file and send the response
+    return res.json({language, code}); 
 });
 
 app.listen('5000', () => {
