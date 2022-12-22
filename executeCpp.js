@@ -3,6 +3,8 @@
 const {exec} =  require('child_process');
 const fs = require('fs');
 const path = require('path');
+const {removeFile} = require('./removeFile');
+
 
 const outputPath = path.join(__dirname, "outputs") ;
 
@@ -23,6 +25,7 @@ const executeCpp = (filepath) => {
     return new Promise((resolve,reject) => {
         exec(`g++ ${filepath} -o ${outPath} && cd ${outputPath} && ${jobid}.out`,
         (error,stdout,stderr) => {
+            removeFile(filepath,outputPath,jobid);
             error && reject({error,stderr});
             stderr && reject(stderr);
             resolve(stdout); 
